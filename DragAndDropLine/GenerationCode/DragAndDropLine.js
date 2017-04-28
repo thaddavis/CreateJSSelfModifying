@@ -14,6 +14,10 @@ var answerOptions;
 var fontSizeOfAnswers;
 var answer;
 var font;
+var destBoxHeight;
+var destBoxWidth;
+var destBoxX;
+var destBoxY;
 var params = [
 	"folder",
 	"fileName",
@@ -22,7 +26,12 @@ var params = [
 	"frameToAddFunctionalityOn",
 	"answerOptions",
 	"fontSizeOfAnswers",
-	"answer"
+	"answer",
+	"font",
+	"destBoxHeight",
+	"destBoxWidth",
+	"destBoxX",
+	"destBoxY"
 ];
 
 var passedInArgs = [];
@@ -61,22 +70,23 @@ var lineInteractionLogic = `
 	testMetadata = new TestMetadata();
 
 	createjs.Graphics.prototype.dashedLineTo = function( x1 , y1 , x2 , y2 , dashLen ){
-	this.moveTo( x1 , y1 );
+		this.moveTo( x1 , y1 );
 
-	var dX = x2 - x1;
-	var dY = y2 - y1;
-	var dashes = Math.floor(Math.sqrt( dX * dX + dY * dY ) / dashLen );
-	var dashX = dX / dashes;
-	var dashY = dY / dashes;
+		var dX = x2 - x1;
+		var dY = y2 - y1;
+		var dashes = Math.floor(Math.sqrt( dX * dX + dY * dY ) / dashLen );
+		//var dashes = Math.floor((dX * dX + dY * dY) / dashLen );
+		var dashX = dX / dashes;
+		var dashY = dY / dashes;
 
-	var q = 0;
-	while( q++ < dashes ){
-	    x1 += dashX;
-	    y1 += dashY;
-	    this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x1, y1);
-	}
-	this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x2, y2);
-	return this; 
+		var q = 0;
+		while( q++ < dashes ){
+		    x1 += dashX;
+		    y1 += dashY;
+		    this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x1, y1);
+		}
+		//this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x2, y2);
+		return this; 
 	}		
 
 	var _self = this;
@@ -85,33 +95,33 @@ var lineInteractionLogic = `
 	// Code for adding answers
 	function addAnswers(stage) {
 		//Destination Size
-		var destHeight = (stage.canvas.height / stage.scaleY) * 0.20;
-		var destWidth = (stage.canvas.width / stage.scaleX) * 0.25;
+		var destHeight = ` + destBoxHeight + `; //(stage.canvas.height / stage.scaleY) * 0.20;
+		var destWidth = ` + destBoxWidth +  `; //(stage.canvas.width / stage.scaleX) * 0.25;
 
-		var box = new createjs.Shape();
-		box.graphics.setStrokeStyle(2).beginStroke("white").rect(0, 0, destWidth, destHeight);
-		box.setBounds(0, 0, destWidth, destHeight);
+		// var box = new createjs.Shape();
+		// box.graphics.setStrokeStyle(2).beginStroke("white").rect(0, 0, destWidth, destHeight);
+		// box.setBounds(0, 0, destWidth, destHeight);
 		var destination = new createjs.Container();
 
-		destinationX = (stage.canvas.width / stage.scaleX) * 0.70;
-		destinationY = (stage.canvas.height / stage.scaleY) * 0.35;
+		destinationX = ` + destBoxX + `;//(stage.canvas.width / stage.scaleX) * 0.70;
+		destinationY = ` + destBoxY + `;//(stage.canvas.height / stage.scaleY) * 0.35;
 
 		destination.x = destinationX;
 		destination.y = destinationY;
 
 		destination.setBounds(destinationX, destinationY, destWidth, destHeight);
-		destination.addChild(box);
+		//destination.addChild(box);
 		stage.addChild(destination);
 
 		var destLine = new cjs.Shape();
 		//destLine.graphics.setStrokeStyle(2).beginStroke("#000000").mt(0,0).lt(30,30);
-		destLine.graphics.setStrokeStyle(5).beginStroke("#000000")
+		destLine.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
 			.dashedLineTo(
 				destinationX,
-				destinationY + destHeight * 1.12,
+				destinationY + destHeight * 1.0,
 				destinationX + destWidth,
-				destinationY + destHeight * 1.12,
-				5
+				destinationY + destHeight * 1.0,
+				8
 			);
 		stage.addChild(destLine);
 
@@ -126,8 +136,8 @@ var lineInteractionLogic = `
 			label.y -= label.getBounds().height / 2;
 			var textRect = new createjs.Shape();
 
-			console.log(label.getBounds().height);
-			console.log(destHeight/2);
+			// console.log(label.getBounds().height);
+			// console.log(destHeight/2);
 
 			var labelHeight = label.getBounds().height < (destHeight / 2) ? label.getBounds().height : (destHeight / 2);	
 			var labelWidth = label.getBounds().width;
@@ -137,7 +147,7 @@ var lineInteractionLogic = `
 
 			var dragger = new createjs.Container();
 			dragger.x = offset * (i*2 + 1);
-			dragger.y = (stage.canvas.height / stage.scaleY) * 0.85;
+			dragger.y = (stage.canvas.height / stage.scaleY) * 0.80;
 
 			dragger.originalX = dragger.x;
 			dragger.originalY = dragger.y;  
@@ -147,12 +157,12 @@ var lineInteractionLogic = `
 
 			// draw placement line
 			var shape = new cjs.Shape();
-			shape.graphics.setStrokeStyle(5).beginStroke("#000000")
+			shape.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
 				.dashedLineTo(
 					offset * (i*2 + 1) - labelWidth / 1.5,
-					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height, 
+					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2, 
 					offset * (i*2 + 1) + labelWidth / 1.5,
-					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height,
+					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2,
 					7
 				);
 			stage.addChild(shape);

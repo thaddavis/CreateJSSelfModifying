@@ -3,8 +3,12 @@
 	"outputFileName" : "dogOutput.html",
 	"outputFileNameTEST" : "dogOutputTEST.html",
 	"frameToAddFunctionalityOn" : "frame_49",
-	"answerOptions" : [ "Four", "Two", "One" ],
-	"fontSizeOfAnswers" : 55,
-	"answer" : "Two",
-	"font": "Sans-Serif"
+	"answerOptions" : [ "4", "2", "1" ],
+	"fontSizeOfAnswers" : 75,
+	"answer" : "2",
+	"font": "Sans-Serif",
+	"destBoxHeight": 80,
+	"destBoxWidth": 130,
+	"destBoxX": 440,
+	"destBoxY": 150
 }

@@ -69,9 +69,9 @@
         this.frame_49 = function () {
             TestMetadata = function () {
                 Answers = [
-                    'Four',
-                    'Two',
-                    'One'
+                    '4',
+                    '2',
+                    '1'
                 ];
                 this.getAnswers = function () {
                     return Answers;
@@ -91,48 +91,41 @@
                     y1 += dashY;
                     this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x1, y1);
                 }
-                this[q % 2 == 0 ? 'moveTo' : 'lineTo'](x2, y2);
                 return this;
             };
             var _self = this;
             _self._answerOptions = [];
             function addAnswers(stage) {
-                var destHeight = stage.canvas.height / stage.scaleY * 0.2;
-                var destWidth = stage.canvas.width / stage.scaleX * 0.25;
-                var box = new createjs.Shape();
-                box.graphics.setStrokeStyle(2).beginStroke('white').rect(0, 0, destWidth, destHeight);
-                box.setBounds(0, 0, destWidth, destHeight);
+                var destHeight = 80;
+                var destWidth = 130;
                 var destination = new createjs.Container();
-                destinationX = stage.canvas.width / stage.scaleX * 0.7;
-                destinationY = stage.canvas.height / stage.scaleY * 0.35;
+                destinationX = 440;
+                destinationY = 150;
                 destination.x = destinationX;
                 destination.y = destinationY;
                 destination.setBounds(destinationX, destinationY, destWidth, destHeight);
-                destination.addChild(box);
                 stage.addChild(destination);
                 var destLine = new cjs.Shape();
-                destLine.graphics.setStrokeStyle(5).beginStroke('#000000').dashedLineTo(destinationX, destinationY + destHeight * 1.12, destinationX + destWidth, destinationY + destHeight * 1.12, 5);
+                destLine.graphics.setStrokeStyle(5, 'round').beginStroke('#000000').dashedLineTo(destinationX, destinationY + destHeight * 1, destinationX + destWidth, destinationY + destHeight * 1, 8);
                 stage.addChild(destLine);
                 var offset = stage.canvas.width / stage.scaleX / (testMetadata.getAnswers().length * 2);
                 testMetadata.getAnswers().forEach(function (value, i) {
-                    var label = new createjs.Text(value, '60px undefined', '#000');
+                    var label = new createjs.Text(value, '75px Sans-Serif', '#000');
                     label.textAlign = 'center';
                     label.y -= label.getBounds().height / 2;
                     var textRect = new createjs.Shape();
-                    console.log(label.getBounds().height);
-                    console.log(destHeight / 2);
                     var labelHeight = label.getBounds().height < destHeight / 2 ? label.getBounds().height : destHeight / 2;
                     var labelWidth = label.getBounds().width;
                     textRect.graphics.setStrokeStyle(2).beginStroke('rgba(0,0,0,0.008)').beginFill('rgba(0,0,0,0.008)').rect(-labelWidth / 2, -labelHeight / 2, labelWidth, labelHeight);
                     var dragger = new createjs.Container();
                     dragger.x = offset * (i * 2 + 1);
-                    dragger.y = stage.canvas.height / stage.scaleY * 0.85;
+                    dragger.y = stage.canvas.height / stage.scaleY * 0.8;
                     dragger.originalX = dragger.x;
                     dragger.originalY = dragger.y;
                     dragger.addChild(textRect, label);
                     dragger.setBounds(-labelWidth, -labelHeight, labelWidth * 2, labelHeight * 2);
                     var shape = new cjs.Shape();
-                    shape.graphics.setStrokeStyle(5).beginStroke('#000000').dashedLineTo(offset * (i * 2 + 1) - labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height, offset * (i * 2 + 1) + labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height, 7);
+                    shape.graphics.setStrokeStyle(5, 'round').beginStroke('#000000').dashedLineTo(offset * (i * 2 + 1) - labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height / 2, offset * (i * 2 + 1) + labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height / 2, 7);
                     stage.addChild(shape);
                     dragger.addEventListener('rollover', function () {
                         createjs.Sound.play(value);
