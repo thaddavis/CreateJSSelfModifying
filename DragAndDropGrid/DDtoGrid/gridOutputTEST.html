@@ -27,10 +27,10 @@
         prototype.frameBounds = frameBounds;
         return prototype;
     }
-    var cellsX = 7;
+    var cellsX = 5;
     var cellsY = 2;
-    var offX = 50;
-    var offY = 50;
+    var offX = 60;
+    var offY = 80;
     var answerGridX = 80;
     var answerGridY = 40;
     var cellOccupancy = [];
@@ -131,16 +131,13 @@
             destination.x = destinationX;
             destination.y = destinationY;
             destination.addChild(box);
-            var label = new createjs.Text('3', '40px Sans-Serif', '#000');
+            var label = new createjs.Text('3', '60px Sans-Serif', '#000');
             label.textAlign = 'center';
             label.y = destHeight / 4;
             label.x = destWidth / 2;
             var textRect = new createjs.Shape();
             destination.addChild(label);
             stage.addChild(destination);
-            var destLine = new cjs.Shape();
-            destLine.graphics.setStrokeStyle(5).beginStroke('#000000').dashedLineTo(destinationX, destinationY + destHeight * 1, destinationX + destWidth, destinationY + destHeight * 1, 5);
-            stage.addChild(destLine);
             var _self = this;
             _self._answerArea = this.answerGrid;
             _self._answerOptions = [

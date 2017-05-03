@@ -180,16 +180,16 @@ var gridInteractionLogic = `
 	destination.addChild(label);
 	stage.addChild(destination);
 
-	var destLine = new cjs.Shape();
-	destLine.graphics.setStrokeStyle(5).beginStroke("#000000")
-		.dashedLineTo(
-			destinationX,
-			destinationY + destHeight * 1,
-			destinationX + destWidth,
-			destinationY + destHeight * 1,
-			5
-		);
-	stage.addChild(destLine);
+	// var destLine = new cjs.Shape();
+	// destLine.graphics.setStrokeStyle(5).beginStroke("#000000")
+	// 	.dashedLineTo(
+	// 		destinationX,
+	// 		destinationY + destHeight * 1,
+	// 		destinationX + destWidth,
+	// 		destinationY + destHeight * 1,
+	// 		5
+	// 	);
+	// stage.addChild(destLine);
 
 
 	var _self = this;   

@@ -11,6 +11,7 @@ var outputFileNameTEST;
 var projectName;
 var frameToAddFunctionalityOn;
 var answerOptions;
+var answerOptionBorderSpace;
 var fontSizeOfAnswers;
 var answer;
 var font;
@@ -25,6 +26,7 @@ var params = [
 	"outputFileNameTEST",
 	"frameToAddFunctionalityOn",
 	"answerOptions",
+	"answerOptionBorderSpace",
 	"fontSizeOfAnswers",
 	"answer",
 	"font",
@@ -114,58 +116,78 @@ var lineInteractionLogic = `
 		stage.addChild(destination);
 
 		var destLine = new cjs.Shape();
-		//destLine.graphics.setStrokeStyle(2).beginStroke("#000000").mt(0,0).lt(30,30);
-		destLine.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
-			.dashedLineTo(
-				destinationX,
-				destinationY + destHeight * 1.0,
-				destinationX + destWidth,
-				destinationY + destHeight * 1.0,
-				8
-			);
+		destLine.graphics.setStrokeStyle(3, "round").beginStroke("#000000").mt(destinationX,destinationY + destHeight * 1.0).lt(destinationX + destWidth,destinationY + destHeight * 1.0);
+		// destLine.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
+		// 	.dashedLineTo(
+		// 		destinationX,
+		// 		destinationY + destHeight * 1.0,
+		// 		destinationX + destWidth,
+		// 		destinationY + destHeight * 1.0,
+		// 		8
+		// 	);
 		stage.addChild(destLine);
 
 		//*** Answers ***//
-		var offset = (stage.canvas.width / stage.scaleX) / (testMetadata.getAnswers().length * 2);//(stage.canvas.clientWidth) / (testMetadata.getAnswers().length * 2);
+		//var offset = (stage.canvas.width / stage.scaleX) / (testMetadata.getAnswers().length * 2);//(stage.canvas.clientWidth) / (testMetadata.getAnswers().length * 2);
 
+		var answerOptionBorderSpace = ` + answerOptionBorderSpace + `;
+        var totalWidth = stage.canvas.width / stage.scaleX;
+
+        var answersTotalWidth = 0;
+        testMetadata.getAnswers().forEach(function (value, i) {
+            var label = new createjs.Text(value, "` + fontSizeOfAnswers + `px ` + font + `", "#000");
+            var labelWidth = label.getBounds().width;
+            answersTotalWidth += labelWidth;
+        });      
+
+        var answerOptionSpacing = totalWidth - answersTotalWidth - (answerOptionBorderSpace * 2);
+        var answerOptionSpacing = answerOptionSpacing / (testMetadata.getAnswers().length - 1); 
+
+        var currentAnswerPositionX = answerOptionBorderSpace;
 		testMetadata.getAnswers().forEach(function(value, i) {
 
 			var label = new createjs.Text(value, "` + fontSizeOfAnswers + `px ` + font + `", "#000");
-			label.textAlign="center";
+			label.textAlign = 'center';
+                    
+            label.y -= label.getBounds().height / 2;
+            var textRect = new createjs.Shape();
+            var labelHeight = label.getBounds().height;
+            var labelWidth = label.getBounds().width;
+            
+            textRect.graphics.setStrokeStyle(2)
+                .beginStroke('rgba(0,0,0,0.008)')
+                .beginFill('rgba(0,0,0,0.008)')
+                .drawRoundRectComplex(
+                	(-labelWidth / 2) - 5, 
+                	-labelHeight / 2, 
+                	labelWidth + 10, 
+                	labelHeight, 
+                	20,20,5,5
+                );
+                //.rect((-labelWidth / 2) - 5, -labelHeight / 2, labelWidth + 10, labelHeight);
+            
+            var dragger = new createjs.Container();
+            
+            dragger.x = currentAnswerPositionX + labelWidth/2;
+            currentAnswerPositionX += (labelWidth + answerOptionSpacing);
 
-			label.y -= label.getBounds().height / 2;
-			var textRect = new createjs.Shape();
-
-			// console.log(label.getBounds().height);
-			// console.log(destHeight/2);
-
-			var labelHeight = label.getBounds().height < (destHeight / 2) ? label.getBounds().height : (destHeight / 2);	
-			var labelWidth = label.getBounds().width;
-
-			textRect.graphics.setStrokeStyle(2).beginStroke('rgba(0,0,0,0.008)').beginFill('rgba(0,0,0,0.008)').rect(-labelWidth/2,-labelHeight/2,labelWidth,labelHeight);
-			//textRect.graphics.setStrokeStyle(2).beginStroke("black").rect(-labelWidth/2,-labelHeight/2,labelWidth,labelHeight);
-
-			var dragger = new createjs.Container();
-			dragger.x = offset * (i*2 + 1);
-			dragger.y = (stage.canvas.height / stage.scaleY) * 0.80;
-
-			dragger.originalX = dragger.x;
-			dragger.originalY = dragger.y;  
-
-			dragger.addChild(textRect, label);
-			dragger.setBounds(-labelWidth,-labelHeight,labelWidth*2,labelHeight*2);
+            dragger.y = stage.canvas.height / stage.scaleY * 0.8;
+            
+            dragger.originalX = dragger.x;
+            dragger.originalY = dragger.y;
+            dragger.addChild(textRect, label);
 
 			// draw placement line
-			var shape = new cjs.Shape();
-			shape.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
-				.dashedLineTo(
-					offset * (i*2 + 1) - labelWidth / 1.5,
-					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2, 
-					offset * (i*2 + 1) + labelWidth / 1.5,
-					(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2,
-					7
-				);
-			stage.addChild(shape);
+			// var shape = new cjs.Shape();
+			// shape.graphics.setStrokeStyle(5, "round").beginStroke("#000000")
+			// 	.dashedLineTo(
+			// 		offset * (i*2 + 1) - labelWidth / 1.5,
+			// 		(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2, 
+			// 		offset * (i*2 + 1) + labelWidth / 1.5,
+			// 		(stage.canvas.height / stage.scaleY) * 0.80 + label.getBounds().height/2,
+			// 		7
+			// 	);
+			// stage.addChild(shape);
 
 			//------- EVENT HANDLERS
 			dragger.addEventListener("rollover", function() {

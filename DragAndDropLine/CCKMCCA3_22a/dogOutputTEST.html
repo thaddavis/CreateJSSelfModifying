@@ -81,9 +81,9 @@
         this.frame_49 = function () {
             TestMetadata = function () {
                 Answers = [
-                    '4',
-                    '2',
-                    '1'
+                    'cake',
+                    'fourteen',
+                    'thirteen'
                 ];
                 this.getAnswers = function () {
                     return Answers;
@@ -108,7 +108,7 @@
             var _self = this;
             _self._answerOptions = [];
             function addAnswers(stage) {
-                var destHeight = 80;
+                var destHeight = 100;
                 var destWidth = 130;
                 var destination = new createjs.Container();
                 destinationX = 440;
@@ -118,27 +118,34 @@
                 destination.setBounds(destinationX, destinationY, destWidth, destHeight);
                 stage.addChild(destination);
                 var destLine = new cjs.Shape();
-                destLine.graphics.setStrokeStyle(5, 'round').beginStroke('#000000').dashedLineTo(destinationX, destinationY + destHeight * 1, destinationX + destWidth, destinationY + destHeight * 1, 8);
+                destLine.graphics.setStrokeStyle(3, 'round').beginStroke('#000000').mt(destinationX, destinationY + destHeight * 1).lt(destinationX + destWidth, destinationY + destHeight * 1);
                 stage.addChild(destLine);
-                var offset = stage.canvas.width / stage.scaleX / (testMetadata.getAnswers().length * 2);
+                var answerOptionBorderSpace = 10;
+                var totalWidth = stage.canvas.width / stage.scaleX;
+                var answersTotalWidth = 0;
                 testMetadata.getAnswers().forEach(function (value, i) {
-                    var label = new createjs.Text(value, '75px Sans-Serif', '#000');
+                    var label = new createjs.Text(value, '60px Sans-Serif', '#000');
+                    var labelWidth = label.getBounds().width;
+                    answersTotalWidth += labelWidth;
+                });
+                var answerOptionSpacing = totalWidth - answersTotalWidth - answerOptionBorderSpace * 2;
+                var answerOptionSpacing = answerOptionSpacing / (testMetadata.getAnswers().length - 1);
+                var currentAnswerPositionX = answerOptionBorderSpace;
+                testMetadata.getAnswers().forEach(function (value, i) {
+                    var label = new createjs.Text(value, '60px Sans-Serif', '#000');
                     label.textAlign = 'center';
                     label.y -= label.getBounds().height / 2;
                     var textRect = new createjs.Shape();
-                    var labelHeight = label.getBounds().height < destHeight / 2 ? label.getBounds().height : destHeight / 2;
+                    var labelHeight = label.getBounds().height;
                     var labelWidth = label.getBounds().width;
-                    textRect.graphics.setStrokeStyle(2).beginStroke('rgba(0,0,0,0.008)').beginFill('rgba(0,0,0,0.008)').rect(-labelWidth / 2, -labelHeight / 2, labelWidth, labelHeight);
+                    textRect.graphics.setStrokeStyle(2).beginStroke('rgba(0,0,0,0.008)').beginFill('rgba(0,0,0,0.008)').drawRoundRectComplex(-labelWidth / 2 - 5, -labelHeight / 2, labelWidth + 10, labelHeight, 20, 20, 5, 5);
                     var dragger = new createjs.Container();
-                    dragger.x = offset * (i * 2 + 1);
+                    dragger.x = currentAnswerPositionX + labelWidth / 2;
+                    currentAnswerPositionX += labelWidth + answerOptionSpacing;
                     dragger.y = stage.canvas.height / stage.scaleY * 0.8;
                     dragger.originalX = dragger.x;
                     dragger.originalY = dragger.y;
                     dragger.addChild(textRect, label);
-                    dragger.setBounds(-labelWidth, -labelHeight, labelWidth * 2, labelHeight * 2);
-                    var shape = new cjs.Shape();
-                    shape.graphics.setStrokeStyle(5, 'round').beginStroke('#000000').dashedLineTo(offset * (i * 2 + 1) - labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height / 2, offset * (i * 2 + 1) + labelWidth / 1.5, stage.canvas.height / stage.scaleY * 0.8 + label.getBounds().height / 2, 7);
-                    stage.addChild(shape);
                     dragger.addEventListener('rollover', function () {
                         createjs.Sound.play(value);
                     });
