@@ -106,7 +106,15 @@ var lineInteractionLogic = `
 		var fullEquationString = "` + fullEquationString + `";
         var indexOfDestLine = fullEquationString.indexOf("x");
         var fullEquationStringLeft = fullEquationString.substring(0, indexOfDestLine);
-        
+
+
+		var fullEquationStringRight = fullEquationString.substring(indexOfDestLine + 1);        
+        // if () {
+
+        // } else {
+
+        // }
+
         var fullEquationStringRight = fullEquationString.substring(indexOfDestLine + 1);
         
         var fontSize = ` + fontSizeOfAnswers + `;
@@ -170,7 +178,7 @@ var lineInteractionLogic = `
 	    
 	         var dragger = new createjs.Container();
 	         dragger.x = offset * (i * 2 + 1);
-	         dragger.y = stage.canvas.height / stage.scaleY * 0.8;
+	         dragger.y = stage.canvas.height / stage.scaleY * 0.85;
 	         dragger.originalX = dragger.x;
 	         dragger.originalY = dragger.y;
 	         dragger.addChild(textRect, label);

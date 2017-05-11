@@ -108,12 +108,13 @@
             var _self = this;
             _self._answerOptions = [];
             function addAnswers(stage) {
-                var fullEquationString = '13 + x = 9';
+                var fullEquationString = '4 + x = 10';
                 var indexOfDestLine = fullEquationString.indexOf('x');
                 var fullEquationStringLeft = fullEquationString.substring(0, indexOfDestLine);
                 var fullEquationStringRight = fullEquationString.substring(indexOfDestLine + 1);
+                var fullEquationStringRight = fullEquationString.substring(indexOfDestLine + 1);
                 var fontSize = 90;
-                var equationVerticalPlacement = 130;
+                var equationVerticalPlacement = 180;
                 var equationBorderSpace = 50;
                 var totalWidth = stage.canvas.width / stage.scaleX;
                 var equationLabelLeft = new createjs.Text(fullEquationStringLeft, fontSize + 'px Sans-Serif', '#000');
@@ -148,7 +149,7 @@
                     textRect.graphics.setStrokeStyle(2).beginStroke('rgba(0,0,0,0.08)').beginFill('rgba(0,0,0,0.08)').drawRoundRectComplex(-labelWidth / 2 - 5, -labelHeight / 2, labelWidth + 10, labelHeight - 5, 10, 10, 10, 10);
                     var dragger = new createjs.Container();
                     dragger.x = offset * (i * 2 + 1);
-                    dragger.y = stage.canvas.height / stage.scaleY * 0.8;
+                    dragger.y = stage.canvas.height / stage.scaleY * 0.85;
                     dragger.originalX = dragger.x;
                     dragger.originalY = dragger.y;
                     dragger.addChild(textRect, label);

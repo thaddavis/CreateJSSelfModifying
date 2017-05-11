@@ -69,9 +69,9 @@
         this.frame_49 = function () {
             TestMetadata = function () {
                 Answers = [
-                    'cake',
-                    'fourteen',
-                    'thirteen'
+                    '12',
+                    '3',
+                    '4'
                 ];
                 this.getAnswers = function () {
                     return Answers;
@@ -108,7 +108,7 @@
                 var destLine = new cjs.Shape();
                 destLine.graphics.setStrokeStyle(3, 'round').beginStroke('#000000').mt(destinationX, destinationY + destHeight * 1).lt(destinationX + destWidth, destinationY + destHeight * 1);
                 stage.addChild(destLine);
-                var answerOptionBorderSpace = 10;
+                var answerOptionBorderSpace = 70;
                 var totalWidth = stage.canvas.width / stage.scaleX;
                 var answersTotalWidth = 0;
                 testMetadata.getAnswers().forEach(function (value, i) {

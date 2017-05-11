@@ -141,7 +141,7 @@ var lineInteractionLogic = `
         });      
 
         var answerOptionSpacing = totalWidth - answersTotalWidth - (answerOptionBorderSpace * 2);
-        var answerOptionSpacing = answerOptionSpacing / (testMetadata.getAnswers().length - 1); 
+        var answerOptionSpacing = answerOptionSpacing / (testMetadata.getAnswers().length - 1);
 
         var currentAnswerPositionX = answerOptionBorderSpace;
 		testMetadata.getAnswers().forEach(function(value, i) {
@@ -158,10 +158,10 @@ var lineInteractionLogic = `
                 .beginStroke('rgba(0,0,0,0.008)')
                 .beginFill('rgba(0,0,0,0.008)')
                 .drawRoundRectComplex(
-                	(-labelWidth / 2) - 5, 
-                	-labelHeight / 2, 
-                	labelWidth + 10, 
-                	labelHeight, 
+                	(-labelWidth / 2) - 5,
+                	-labelHeight / 2,
+                	labelWidth + 10,
+                	labelHeight,
                 	20,20,5,5
                 );
                 //.rect((-labelWidth / 2) - 5, -labelHeight / 2, labelWidth + 10, labelHeight);
@@ -291,7 +291,7 @@ estraverse.traverse(ast, {
     		) {
 
 			var testNodes1 = esprima.parse(lineInteractionLogic).body;
-				node.right.body.body.splice.apply(node.right.body.body, [0, 0].concat(testNodes1));
+			node.right.body.body.splice.apply(node.right.body.body, [0, 0].concat(testNodes1));
 			return node;
     	}
 
