@@ -9,14 +9,22 @@ var fileName;
 var outputFileName;
 var outputFileNameTEST;
 var projectName;
-var correctOrder;
+var correctOrder = [];
 
 var params = [
     "fileName",
     "outputFileName",
     "outputFileNameTEST",
-    "correctOrder",
+    // "correctOrder",
     "folder"
+];
+
+var allNumbers = [
+'one01','two02','three03','four04','five05','six06','seven07','eight08','nine09','ten10','eleven11','twelve12',
+'thirteen13','fourteen14','fifteen15','sixteen16','seventeen17','eighteen18','nineteen19','twenty20','twentyone21',
+'twentytwo22','twentythree23','twentyfour24','twentyfive25','twentysix26','twentyseven27','twentyeight28','twentynine29','thirty30',
+'thirtyone31','thirtytwo32','thirtythree33','thirtyfour34','thirtyfive35','thirtysix36','thirtyseven37','thirtyeight38','thirtynine39',
+'forty40'
 ];
 
 var passedInArgs = [];
@@ -47,13 +55,25 @@ var lineInteractionLogic = ``;
 
 estraverse.traverse(ast, {
     enter: function (node, parent) { 
-        //console.log(node.type);
+        if (node.type === "Identifier") {
+            if (allNumbers.indexOf(node.name) > -1) {
+                correctOrder.push(node.name);
+            } else {}
+        }
     },
     leave: function (node, parent) {
     }
 });
 
-correctOrder = correctOrder.split(",");
+
+correctOrder = correctOrder.filter(function(elem, index, self) {
+    return index == self.indexOf(elem);
+});
+
+correctOrder.sort(function(a, b) {
+    return parseFloat(a.substring(a.length - 2, a.length)) - parseFloat(b.substring(b.length - 2, b.length));
+});
+
 
 //----------------------------------------------------------------------------------------------------
 
