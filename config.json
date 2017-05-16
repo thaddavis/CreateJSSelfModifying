@@ -1,6 +1,6 @@
 {
 	"fileName": "CCSS.MATH.K.CC.B.5_1a_Canvas.js",
-	"outputFileName": "CCSS.MATH.K.CC.B.5_1a_CanvasOUTPUT.html",
+	"outputFileName": "area.html",
 	"outputFileNameTEST": "areaTEST.html",
 	"projectName": "CCSSMATHKCCB5_1a_Canvas",
 	"frameToAddFunctionalityOn": "frame_0",
@@ -14,5 +14,5 @@
 	"answerLineX": 450,
 	"answerLineY": 40,
 	"fontSizeOfAnswer": 55,
-	"answer": 2
+	"answer": 1
 }
